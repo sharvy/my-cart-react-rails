@@ -1,0 +1,20 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  username: macbook
+  password:
+  pool: 5
+
+development:
+  <<: *default
+  database: my-cart_development
+
+test:
+  <<: *default
+  database: my-cart_test
+
+production:
+  <<: *default
+  database: my-cart_production
+  username: my-cart
+  password: <%= ENV['MY-CART_DATABASE_PASSWORD'] %>
