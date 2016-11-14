@@ -5,16 +5,39 @@ var Body = React.createClass({
     }
   },
 
+  comparator: function(a, b) {
+    if (a.created_at < b.created_at)
+      return 1;
+
+    if (a.created_at > b.created_at)
+      return -1;
+
+    return 0;
+  },
+
   componentDidMount: function() {
-    $.getJSON('/api/v1/items.json', (response) => {
+    $.getJSON('/api/v1/items.json', (items) => {
+
+      items = items.sort(this.comparator);
+
       this.setState({
-        items: response
+        items: items
       });
     });
   },
 
   handleSubmit: function(item) {
-    console.log(item);
+    var items;
+
+    items = React.addons.update(this.state.items, {
+      $push: [item]
+    });
+
+    items = items.sort(this.comparator);
+
+    return this.setState({
+      items: items
+    });
   },
 
   render: function() {
